@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 const Header = ({course}) => <h1>{course}</h1>
 
 const Part = ({data}) => <p>{data.name} {data.exercises}</p>
