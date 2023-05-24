@@ -3,16 +3,18 @@ import { useState } from 'react'
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
+  const [number, setNumber] = useState('')
 
-  const inputChange = (event) => {
-	setNewName(event.target.value)
-  }
+  const nameChange = (event) => setNewName(event.target.value)
+
+  const numberChange = (event) => setNumber(event.target.value)
 
   const handleClick = (event) => {
 	event.preventDefault()
 	if (checkList(newName) === false) {
 		setNewName('')
-		setPersons([...persons, {name: newName }])
+		setNumber('')
+		setPersons([...persons, {name: newName, number: number}])
 	}
   }
 
@@ -28,16 +30,22 @@ const App = () => {
 
   return (
     <div>
-	<div>debug: {newName}</div>
       <h2>Phonebook</h2>
       <form onSubmit={handleClick}>
         <div>
           name: <input 
 		  type="text"
 		  value={newName}
-		  onChange={inputChange}
+		  onChange={nameChange}
 		  />
         </div>
+		<div>
+			number: <input 
+			type="text"
+			value={number}
+			onChange={numberChange}
+			/>
+		</div>
         <div>
           <button type="submit" onClick={handleClick}>add</button>
         </div>
@@ -45,7 +53,9 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
 		{persons.map((person, index) => (
-			<li key={index}>{person.name}</li>
+			<li key={index}>
+				<span>{person.name} {person.number}</span>
+			</li>
 		))}
 	  </ul>
     </div>
