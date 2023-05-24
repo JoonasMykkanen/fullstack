@@ -10,12 +10,25 @@ const App = () => {
 
   const handleClick = (event) => {
 	event.preventDefault()
-	setPersons([...persons, {name: newName }])
-	setNewName('')
+	if (checkList(newName) === false) {
+		setNewName('')
+		setPersons([...persons, {name: newName }])
+	}
+  }
+
+  const  checkList = (name) => {
+	for (let i = 0; i < persons.length; i++) {
+		if (persons[i].name === name) {
+			alert(`${name} is already added to phonebook`)
+			return (true)
+		}
+	}
+	return (false)
   }
 
   return (
     <div>
+	<div>debug: {newName}</div>
       <h2>Phonebook</h2>
       <form onSubmit={handleClick}>
         <div>
