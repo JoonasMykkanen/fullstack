@@ -36,18 +36,20 @@ const App = () => {
 	}
 	
   	return (
-		<div>
-			<h2>Phonebook</h2>
-			<FilterForm filter={filter} updateFilter={updateFilter}/>
-			<PersonForm 
-			newName={newName}
-			number={number}
-			numberChange={numberChange}
-			nameChange={nameChange}
-			handleClick={handleClick}
-			/>
-			<List persons={persons} filter={filter}/>
-		</div>
+		<>
+			<div>
+				<h2>Phonebook</h2>
+				<FilterForm filter={filter} updateFilter={updateFilter}/>
+				<PersonForm 
+				newName={newName}
+				number={number}
+				numberChange={numberChange}
+				nameChange={nameChange}
+				handleClick={handleClick}
+				/>
+				<List persons={persons} filter={filter}/>
+			</div>
+		</>
  	)
 }
 
