@@ -1,3 +1,4 @@
+import { List, PersonForm, FilterForm } from './components/Phonebook.js'
 import { useState } from 'react'
 
 const App = () => {
@@ -15,16 +16,16 @@ const App = () => {
   	const numberChange = (event) => setNumber(event.target.value)
   	const updateFilter = (event) => setFilter(event.target.value)
 
-  	const handleClick = (event) => {
+	const handleClick = (event) => {
 		event.preventDefault()
-			if (checkList(newName) === false) {
+		if (checkList(newName) === false) {
 			setNewName('')
 			setNumber('')
 			setPersons([...persons, {name: newName, number: number}])
 		}
-  	}
-
- 	 const  checkList = (name) => {
+	}
+	
+	const  checkList = (name) => {
 		for (let i = 0; i < persons.length; i++) {
 			if (persons[i].name === name) {
 				alert(`${name} is already added to phonebook`)
@@ -32,52 +33,19 @@ const App = () => {
 			}
 		}
 		return (false)
- 	 }
-
-	 const List = ( {persons, filter} ) => {
-		const trimmed = persons.filter((person) => person.name.toLowerCase().includes(filter.toLowerCase()))
-		return (
-			<ul>
-				{trimmed.map((person, index) => (
-				<li key={index}>
-					<span>{person.name} {person.number}</span>
-				</li>
-				))}
-			</ul>
-		)
-	 }
-
+	}
+	
   	return (
 		<div>
 			<h2>Phonebook</h2>
-			<div>
-				filter shown with: <input
-				type="text"
-				value={filter}
-				onChange={updateFilter}
-				/>
-			</div>
-			<h1>add a new</h1>
-			<form onSubmit={handleClick}>
-				<div>
-					name: <input 
-					type="text"
-					value={newName}
-					onChange={nameChange}
-					/>
-					</div>
-				<div>
-					number: <input 
-					type="text"
-					value={number}
-					onChange={numberChange}
-					/>
-				</div>
-				<div>
-					<button type="submit" onClick={handleClick}>add</button>
-				</div>
-			</form>
-			<h2>Numbers</h2>
+			<FilterForm filter={filter} updateFilter={updateFilter}/>
+			<PersonForm 
+			newName={newName}
+			number={number}
+			numberChange={numberChange}
+			nameChange={nameChange}
+			handleClick={handleClick}
+			/>
 			<List persons={persons} filter={filter}/>
 		</div>
  	)
