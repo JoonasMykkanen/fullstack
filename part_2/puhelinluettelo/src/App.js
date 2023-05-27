@@ -1,45 +1,55 @@
 import { List, PersonForm, FilterForm } from './components/Phonebook.js'
+import pbService from './services/persons.js'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
-
 
 const App = () => {
+	// Init fields and phonebook list
 	const [persons, setPersons] = useState([])
   	const [newName, setNewName] = useState('')
-  	const [number, setNumber] = useState('')
+  	const [newNumber, setNumber] = useState('')
   	const [filter, setFilter] = useState('')
 
+	// Define functions to manipulate list
   	const nameChange = (event) => setNewName(event.target.value)
   	const numberChange = (event) => setNumber(event.target.value)
   	const updateFilter = (event) => setFilter(event.target.value)
 
-	useEffect(() => {
-		console.log('effect')
-		axios
-		.get('http://localhost:3001/persons')
-		.then(response => {
-			console.log('promise fulfilled')
-			setPersons(response.data)
-		})
+	// Get initial list from server
+	useEffect (() => {
+		pbService.getAll().then(list => {setPersons(list)})
+			.catch(error => {console.log('could not get list from server')})
 	}, [])
 
-	const handleClick = (event) => {
-		event.preventDefault()
-		if (checkList(newName) === false) {
-			setNewName('')
-			setNumber('')
-			setPersons([...persons, {name: newName, number: number}])
-		}
-	}
-	
+	// Looping trough list and checking for current input for matches
+	// Returns true if found and in that case prompt error and return
+	// true to signal function caller to not add name in the phonebook
 	const  checkList = (name) => {
+		const lowerName = name.toLowerCase()
 		for (let i = 0; i < persons.length; i++) {
-			if (persons[i].name === name) {
+			const lowerPersonsName = persons[i].name.toLowerCase()
+			if (lowerPersonsName === lowerName) {
 				alert(`${name} is already added to phonebook`)
 				return (true)
 			}
 		}
 		return (false)
+	}
+
+	// Prevents site from refreshing and checking if name is alraedy on the list
+	// if it is not found, adds it to the database, fiels reseted in both cases
+	const handleClick = (event) => {
+		event.preventDefault()
+		const newItem = {name: newName, number: newNumber}
+		if (checkList(newName) === false) {
+			pbService
+				.create(newItem).then(updatedList => {
+					setPersons([...persons, {name: newName, number: newNumber}])
+					console.log('added new item to list')
+				})
+				.catch(error => {console.log('error with creating new person')})
+		}
+		setNewName('')
+		setNumber('')
 	}
 	
   	return (
@@ -49,7 +59,7 @@ const App = () => {
 				<FilterForm filter={filter} updateFilter={updateFilter}/>
 				<PersonForm 
 				newName={newName}
-				number={number}
+				newNumber={newNumber}
 				numberChange={numberChange}
 				nameChange={nameChange}
 				handleClick={handleClick}

@@ -12,7 +12,7 @@ const FilterForm =  ( {filter, updateFilter} ) => {
 	)
 }
 
-const PersonForm = ( {newName, number, numberChange, nameChange, handleClick} ) => {
+const PersonForm = ( {newName, newNumber, numberChange, nameChange, handleClick} ) => {
 	return (
 		<>
 			<h1>add a new</h1>
@@ -27,7 +27,7 @@ const PersonForm = ( {newName, number, numberChange, nameChange, handleClick} ) 
 				<div>
 					number: <input 
 					type="text"
-					value={number}
+					value={newNumber}
 					onChange={numberChange}
 					/>
 				</div>
@@ -55,4 +55,8 @@ const List = ( {persons, filter} ) => {
 	)
  }
 
-export { List, PersonForm, FilterForm }
+export { 
+	List,
+	PersonForm,
+	FilterForm
+}
