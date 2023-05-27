@@ -12,11 +12,11 @@ const FilterForm =  ( {filter, updateFilter} ) => {
 	)
 }
 
-const PersonForm = ( {newName, newNumber, numberChange, nameChange, handleClick} ) => {
+const PersonForm = ( {newName, newNumber, numberChange, nameChange, action} ) => {
 	return (
 		<>
 			<h1>add a new</h1>
-			<form onSubmit={handleClick}>
+			<form onSubmit={action}>
 				<div>
 					name: <input 
 					type="text"
@@ -32,22 +32,40 @@ const PersonForm = ( {newName, newNumber, numberChange, nameChange, handleClick}
 					/>
 				</div>
 				<div>
-					<button type="submit" onClick={handleClick}>add</button>
+					<button type='submit'>add</button>
 				</div>
 			</form>
 		</>
 	)
 }
 
-const List = ( {persons, filter} ) => {
+const Item = ( {person, action} ) => {
+	return (
+		<>
+			<span>
+				{person.name} {person.number}{' '}
+				<button
+					type='button'
+					onClick={action}>
+					delete
+				</button>
+			</span>
+		</>
+	)
+}
+
+const List = ( {persons, filter, action} ) => {
 	const trimmed = persons.filter((person) => person.name.toLowerCase().includes(filter.toLowerCase()))
+	const deleteItem = (id) => { action(id) }
 	return (
 		<>
 			<h2>Numbers</h2>
 			<ul>
-				{trimmed.map((person, index) => (
-				<li key={index}>
-					<span>{person.name} {person.number}</span>	
+				{trimmed.map((person, id) => (
+				<li key={id}>
+					<Item 
+					person={person}
+					action={() => deleteItem(person.id)}/>
 				</li>
 				))}
 			</ul>
@@ -55,8 +73,4 @@ const List = ( {persons, filter} ) => {
 	)
  }
 
-export { 
-	List,
-	PersonForm,
-	FilterForm
-}
+export { List, PersonForm, FilterForm }

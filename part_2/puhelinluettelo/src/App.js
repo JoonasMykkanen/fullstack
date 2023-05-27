@@ -35,14 +35,15 @@ const App = () => {
 		return (false)
 	}
 
-	// Prevents site from refreshing and checking if name is alraedy on the list
+	// checking if name is alraedy on the list
 	// if it is not found, adds it to the database, fiels reseted in both cases
-	const handleClick = (event) => {
+	const addButton = (event) => {
 		event.preventDefault()
 		const newItem = {name: newName, number: newNumber}
 		if (checkList(newName) === false) {
 			pbService
-				.create(newItem).then(updatedList => {
+				.create(newItem)
+				.then(updatedList => {
 					setPersons([...persons, {name: newName, number: newNumber}])
 					console.log('added new item to list')
 				})
@@ -51,20 +52,42 @@ const App = () => {
 		setNewName('')
 		setNumber('')
 	}
+
+	// delete index "id" from the database and then filter out the id from the local list
+	// update list to make changes to screen
+	const deleteButton = (id) => {
+		const person = persons.find((person) => person.id === id)
+		const name = person.name
+		console.log(name)
+		if (window.confirm(`Are you sure to remove "${name}" from the phonebook?`)) {
+			pbService
+				.remove(id)
+				.then(updatedList => {
+					setPersons(persons.filter((person) => person.id !== id))
+					console.log('removed from database and updated the view')
+				})
+				.catch(error => {console.log(`error while removing person ${id} from list`)})
+		}
+		console.log('User cancelled delete')
+	}
 	
   	return (
 		<>
 			<div>
 				<h2>Phonebook</h2>
-				<FilterForm filter={filter} updateFilter={updateFilter}/>
+				<FilterForm
+					filter={filter}
+					updateFilter={updateFilter}/>
 				<PersonForm 
-				newName={newName}
-				newNumber={newNumber}
-				numberChange={numberChange}
-				nameChange={nameChange}
-				handleClick={handleClick}
-				/>
-				<List persons={persons} filter={filter}/>
+					newName={newName}
+					newNumber={newNumber}
+					numberChange={numberChange}
+					nameChange={nameChange}
+					action={addButton}/>
+				<List
+					persons={persons}
+					action={deleteButton}
+					filter={filter}/>
 			</div>
 		</>
  	)

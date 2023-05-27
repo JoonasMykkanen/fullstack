@@ -1,39 +1,9 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
+      "name": "Testi user",
+      "number": "1234567890",
       "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Joonas Mykkänen",
-      "number": "0400197329",
-      "id": 5
-    },
-    {
-      "name": "Joonas",
-      "number": "",
-      "id": 6
-    },
-    {
-      "name": "Testi",
-      "number": "0400",
-      "id": 7
     }
   ]
 }
