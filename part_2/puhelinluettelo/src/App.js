@@ -4,7 +4,7 @@ import pbService from './services/persons.js'
 import { useState, useEffect } from 'react'
 
 const App = () => {
-	const [persons, setPersons] = useState([])
+	const [persons, setPersons] = useState(null)
   	const [newName, setNewName] = useState('')
   	const [newNumber, setNumber] = useState('')
   	const [filter, setFilter] = useState('')
@@ -88,32 +88,35 @@ const App = () => {
 			setErrorMessage('Cancelled..')
 		}
 	}
-	
-  	return (
-		<>
-			<div>
-				<h1>Phonebook</h1>
-				<Notification 
-					error={errorMessage}
-					success={successMessage}
-					setError={setErrorMessage}
-					setSuccess={setSuccessMessage}/>
-				<FilterForm
-					filter={filter}
-					updateFilter={updateFilter}/>
-				<PersonForm 
-					newName={newName}
-					newNumber={newNumber}
-					numberChange={numberChange}
-					nameChange={nameChange}
-					action={addButton}/>
-				<List
-					persons={persons}
-					action={deleteButton}
-					filter={filter}/>
-			</div>
-		</>
- 	)
+	if (!persons) {
+		return null
+	} else {
+		return (
+			<>
+				<div>
+					<h1>Phonebook</h1>
+					<Notification 
+						error={errorMessage}
+						success={successMessage}
+						setError={setErrorMessage}
+						setSuccess={setSuccessMessage}/>
+					<FilterForm
+						filter={filter}
+						updateFilter={updateFilter}/>
+					<PersonForm 
+						newName={newName}
+						newNumber={newNumber}
+						numberChange={numberChange}
+						nameChange={nameChange}
+						action={addButton}/>
+					<List
+						persons={persons}
+						action={deleteButton}
+						filter={filter}/>
+				</div>
+			</>
+		)
+	}
 }
 
 export default App
