@@ -32,7 +32,10 @@ const App = () => {
 					setPersons(updatedPersons)
 					console.log('updated number succesfully')
 				})
-				.catch(error => {console.log('Error updating number')})
+				.catch(error => 
+					{setErrorMessage(`${person.name} information has been deleted from server`)})
+					pbService.getAll().then(list => {setPersons(list)})
+						.catch(error => {console.log('could not get list from server')})
 		} else {
 			setErrorMessage('Cancelled..')
 			console.log('user rejected update prompt')
