@@ -1,4 +1,5 @@
 import { List, PersonForm, FilterForm } from './components/Phonebook.js'
+import Notification from './components/Notification.js'
 import pbService from './services/persons.js'
 import { useState, useEffect } from 'react'
 
@@ -7,6 +8,9 @@ const App = () => {
   	const [newName, setNewName] = useState('')
   	const [newNumber, setNumber] = useState('')
   	const [filter, setFilter] = useState('')
+
+	const [errorMessage, setErrorMessage] = useState(null)
+	const [successMessage, setSuccessMessage] = useState(null)
 
   	const nameChange = (event) => setNewName(event.target.value)
   	const numberChange = (event) => setNumber(event.target.value)
@@ -22,7 +26,7 @@ const App = () => {
 		if (window.confirm(`${person.name} is already in phonebook, update number?`)) {
 			console.log('user accepted update prompt')
 			pbService.update(person.id, {name: person.name, number: newNumber})
-				.then(response => {
+				.then(updatedList => {
 					const updatedPersons = [...persons]
 					updatedPersons[id] = { ...updatedPersons[id], name: person.name, number: newNumber }
 					setPersons(updatedPersons)
@@ -30,6 +34,7 @@ const App = () => {
 				})
 				.catch(error => {console.log('Error updating number')})
 		} else {
+			setErrorMessage('Cancelled..')
 			console.log('user rejected update prompt')
 		}
 	}
@@ -55,6 +60,7 @@ const App = () => {
 				.then(updatedList => {
 					setPersons([...persons, {name: newName, number: newNumber}])
 					console.log('added new item to list')
+					setSuccessMessage(`${newName} succesfully added to the phonebook!`)
 				})
 				.catch(error => {console.log('error with creating new person')})
 		}
@@ -65,24 +71,30 @@ const App = () => {
 	const deleteButton = (id) => {
 		const person = persons.find((person) => person.id === id)
 		const name = person.name
-		console.log(name)
 		if (window.confirm(`Are you sure to remove "${name}" from the phonebook?`)) {
 			pbService
 				.remove(id)
 				.then(updatedList => {
 					setPersons(persons.filter((person) => person.id !== id))
 					console.log('removed from database and updated the view')
+					setSuccessMessage(`${newName} removed from phonebook`)
 				})
-				.catch(error => {console.log(`error while removing person ${id} from list`)})
+				.catch(error => {console.log('error removing person from the list')})
 		} else {
 			console.log('User cancelled delete')
+			setErrorMessage('Cancelled..')
 		}
 	}
 	
   	return (
 		<>
 			<div>
-				<h2>Phonebook</h2>
+				<h1>Phonebook</h1>
+				<Notification 
+					error={errorMessage}
+					success={successMessage}
+					setError={setErrorMessage}
+					setSuccess={setSuccessMessage}/>
 				<FilterForm
 					filter={filter}
 					updateFilter={updateFilter}/>

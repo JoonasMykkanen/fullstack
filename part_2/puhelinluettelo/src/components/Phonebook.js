@@ -15,7 +15,7 @@ const FilterForm =  ( {filter, updateFilter} ) => {
 const PersonForm = ( {newName, newNumber, numberChange, nameChange, action} ) => {
 	return (
 		<>
-			<h1>add a new</h1>
+			<h2>add a new</h2>
 			<form onSubmit={action}>
 				<div>
 					name: <input 
@@ -62,7 +62,7 @@ const List = ( {persons, filter, action} ) => {
 			<h2>Numbers</h2>
 			<ul>
 				{trimmed.map((person, id) => (
-				<li key={id}>
+				<li className='person' key={id}>
 					<Item 
 					person={person}
 					action={() => deleteItem(person.id)}/>
