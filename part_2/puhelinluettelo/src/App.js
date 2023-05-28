@@ -25,7 +25,9 @@ const App = () => {
 		const person = persons[id]
 		if (window.confirm(`${person.name} is already in phonebook, update number?`)) {
 			console.log('user accepted update prompt')
-			pbService.update(person.id, {name: person.name, number: newNumber})
+			console.log(`updating ${id} aka ${person.name} ${newNumber} info`)
+			const newObject = {name: person.name, number: newNumber}
+			pbService.update(id, newObject)
 				.then(updatedList => {
 					const updatedPersons = [...persons]
 					updatedPersons[id] = { ...updatedPersons[id], name: person.name, number: newNumber }
