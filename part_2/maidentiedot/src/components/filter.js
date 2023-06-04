@@ -1,4 +1,15 @@
-const FilterForm =  ( {filter, updateFilter} ) => {
+const ResetButton = ( {action} ) => {
+	return (
+		<>
+			<button onClick={action}>reset</button>
+		</>
+	)
+}
+
+const FilterForm =  ( {filter, updateFilter, setFilter} ) => {
+	const handleReset = () => {
+		setFilter('')
+	}
 	return (
 		<>
 			<div>
@@ -7,6 +18,7 @@ const FilterForm =  ( {filter, updateFilter} ) => {
 				value={filter}
 				onChange={updateFilter}
 				/>
+				<ResetButton action={handleReset}/>
 			</div>
 		</>
 	)

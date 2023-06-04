@@ -1,3 +1,11 @@
+const ShowButton = ( {country, action} ) => {
+	return (
+		<>
+			<button onClick={() => action(country.name.common)}>show</button>
+		</>
+	)
+}
+
 const Country = ( {country} ) => {
 	const languages = Object.values(country.languages)
 	const name = country.name.common
@@ -12,8 +20,8 @@ const Country = ( {country} ) => {
 			<p>{area}</p>
 			<p>languages: </p>
 			<ul>
-				{languages.map((langugage, id) => (
-					<li key={id}>{langugage}</li>
+				{languages.map((langugage) => (
+					<li key={langugage}>{langugage}</li>
 				))}
 			</ul>
 			<img src={photo} alt={alt} />
@@ -21,7 +29,7 @@ const Country = ( {country} ) => {
 	)
 }
 
-const List = ( {countries} ) => {
+const List = ( {countries, updateFilter} ) => {
 	const len = countries.length
 	if (len === 1) {
 		return (
@@ -41,7 +49,11 @@ const List = ( {countries} ) => {
 			<div>
 				<ul>
 					{countries.map((item) => (
-						<li key={item.cca3}>{item.name.common}</li>
+						<li key={item.cca3}>{item.name.common}
+						<ShowButton
+							country={item}
+							action={updateFilter}/>
+						</li>
 					))}
 				</ul>
 			</div>

@@ -26,8 +26,13 @@ const App = () => {
 
 	return (
 	  <div>
-		<FilterForm filter={filter} updateFilter={updateFilter}/>
-		<List countries={filteredItems} />
+		<FilterForm
+			filter={filter}
+			updateFilter={updateFilter}
+			setFilter={setFilter}/>
+		<List
+			countries={filteredItems}
+			updateFilter={setFilter}/>
 	  </div>
 	)
   }
