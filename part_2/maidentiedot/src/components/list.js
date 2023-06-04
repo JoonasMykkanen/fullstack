@@ -1,3 +1,5 @@
+import Weather from './weather.js'
+
 const ShowButton = ( {country, action} ) => {
 	return (
 		<>
@@ -14,10 +16,10 @@ const Country = ( {country} ) => {
 	const alt = country.flags.alt
 	const area = country.area
 	return (
-		<div>
-			<h2>{name}</h2>
-			<p>{capital}</p>
-			<p>{area}</p>
+		<>
+			<h1>{name}</h1>
+			<p>Capital: {capital}</p>
+			<p>Area: {area}</p>
 			<p>languages: </p>
 			<ul>
 				{languages.map((langugage) => (
@@ -25,7 +27,8 @@ const Country = ( {country} ) => {
 				))}
 			</ul>
 			<img src={photo} alt={alt} />
-		</div>
+			<Weather city={capital} />
+		</>
 	)
 }
 
@@ -33,20 +36,20 @@ const List = ( {countries, updateFilter} ) => {
 	const len = countries.length
 	if (len === 1) {
 		return (
-			<div>
+			<>
 				<Country country={countries[0]} />
-			</div>
+			</>
 		)
 	}
 	if (len > 10) {
 		return (
-			<div>
+			<>
 				<p>Too many matches, specify another filter</p>
-			</div>
+			</>
 		)
 	} else {
 		return (
-			<div>
+			<>
 				<ul>
 					{countries.map((item) => (
 						<li key={item.cca3}>{item.name.common}
@@ -56,7 +59,7 @@ const List = ( {countries, updateFilter} ) => {
 						</li>
 					))}
 				</ul>
-			</div>
+			</>
 		)
 	}
 }

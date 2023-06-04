@@ -12,14 +12,14 @@ const FilterForm =  ( {filter, updateFilter, setFilter} ) => {
 	}
 	return (
 		<>
-			<div>
+			<>
 				filter shown with: <input
 				type="text"
 				value={filter}
 				onChange={updateFilter}
 				/>
 				<ResetButton action={handleReset}/>
-			</div>
+			</>
 		</>
 	)
 }
