@@ -1,0 +1,3 @@
+[submodule "part_3/puhelinluettelo_backend"]
+	path = part_3/puhelinluettelo_backend
+	url = https://github.com/joonasmykkanen/puhelinluettelo_backend
