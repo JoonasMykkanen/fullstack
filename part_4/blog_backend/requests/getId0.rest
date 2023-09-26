@@ -1,0 +1,2 @@
+### Get blog id 0
+GET http://localhost:3001/api/blogs/0

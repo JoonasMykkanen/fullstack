@@ -1,0 +1,10 @@
+### update ok
+PUT http://localhost:3001/api/blogs/651299736c04d022f5044def
+Content-Type: application/json
+
+{
+    "title": "This has been updated again",
+    "author": "John Doe",
+    "url": "http://example.com/sample-blog",
+    "likes": 10
+}

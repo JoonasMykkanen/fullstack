@@ -1,0 +1,7 @@
+### Try to create invalid post
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+    "wrong field": "Should not work",
+}
