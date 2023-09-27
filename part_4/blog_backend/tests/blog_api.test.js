@@ -44,12 +44,19 @@ beforeEach(async () => {
 
 const api = supertest(app)
 
-describe('GET', () => {
+describe('BLOG GET', () => {
 	test('blogs are returned as json', async () => {
 		await api
 			.get('/api/blogs')
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
+	})
+
+	test('return if db is empty', async () => {
+		await Blog.deleteMany({})
+
+		const response = await api.get('/api/blogs')
+		expect(response.body).toHaveLength(0)
 	})
 
 	test('testing for id field to exits and not _id', async () => {
@@ -64,7 +71,7 @@ describe('GET', () => {
 	})
 })
 
-describe('POST', () => {
+describe('BLOG POST', () => {
 	test('valid blog can be added', async () => {
 		const newBlog = {
 			title: 'New Blog',
@@ -112,7 +119,7 @@ describe('POST', () => {
 	})
 })
 
-describe('DELETE', () => {
+describe('BLOG DELETE', () => {
 	test('Delete non existant blog', async () => {
 		await api
 			.delete('/api/blogs/5f4d5xxxxxa4a4374839ac7a')
@@ -141,7 +148,7 @@ describe('DELETE', () => {
 	})
 })
 
-describe('PUT', () => {
+describe('BLOG PUT', () => {
 	const updatedBlog = {
 		title: 'Newly updated blog',
 		author: 'John Doe',
