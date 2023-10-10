@@ -1,0 +1,4 @@
+# Try to delte one blog
+# need to modify id to existing one
+
+DELETE http://localhost:3001/api/blogs/65237fcb7ee8766ff2202d8b

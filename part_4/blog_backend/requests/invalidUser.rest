@@ -1,0 +1,12 @@
+
+# Tries to add invalid user
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+	"invalidfield1": "asdasd",
+	"invalidfield2": "asdasd",
+	"invalidfield3": "asdasd",
+	"invalidfield4": "asdasd",
+	"invalidfield5": "asdasd"
+}

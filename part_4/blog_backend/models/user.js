@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
 		required: true
 	},
 	passwordHash: {
-		type: String
+		type: String,
 	},
 	blogs: [{
 		type: mongoose.Schema.Types.ObjectId,
