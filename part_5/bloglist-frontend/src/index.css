@@ -22,3 +22,18 @@
 .headerLine button {
 	display: inline-block;
 }
+
+.blogPost {
+    padding: 10px;
+	border-style: solid;
+	border-radius: 10px;
+	margin: 10px;
+}
+
+.blogPostButton {
+	margin-left: 5px;
+}
+
+.blogDetails {
+	margin: 5px 0;
+}

@@ -1,18 +1,50 @@
 import blogService from '../services/blogs'
-import { useState } from 'react'
+import Togglable from './Togglable'
+import { useState, useRef } from 'react'
 
 // Render the list of blogs
-const Blogs = ({ blogs }) => (
-	<div>
-    	{blogs.map( (element, id) => {
-        return <div key={id}> {element.title} {element.author} </div>
-      })}
-	</div>  
-)
+const Blogs = ({ blogs }) => {
+  const [showDetails, setDetails] = useState(false)
+
+  return (
+    <div>
+        {blogs.map( (element, id) => {
+          return (
+            <div key={id} className='blogPost'>
+              {!showDetails &&
+                <div>
+                  <span>{element.title} / {element.author}</span>
+                  <button onClick={() => setDetails(true)} className='blogPostButton'>view</button>
+                </div>}
+              {showDetails &&
+                <div>
+                  <span>{element.title} / {element.author}</span>
+                  <button className='blogPostButton'>hide</button>
+                  <div className='BlogDetails'>
+                    <span className='BlogDetails'>{element.url}</span>
+                    <span>{element.likes}</span>
+                    <button onClick={() => setDetails(false)} className='blogPostButton'>like</button>
+                    <span>{element.user.username}</span>
+                  </div>
+                </div>
+              }
+            </div>
+          )
+        })}
+    </div>  
+  )
+}
 
 // Form to create new blogs
-const NewBlogForm = ({ handleNewBlogForm, setAuthor, setTitle, setUrl, title, author, url }) => {
-
+const NewBlogForm = ({
+  handleNewBlogForm,
+  setAuthor,
+  setTitle,
+  setUrl,
+  title,
+  author,
+  url,
+}) => {
   return (
     <div>
       <h2>Create new blog</h2>
@@ -46,6 +78,7 @@ const BlogView = ({ blogs, setBlogs, errorMessage, successMessage }) => {
   const [author, setAuthor] = useState('')
   const [title, setTitle] = useState('')
   const [url, setUrl] = useState('')
+  const blogFormRef = useRef()
 
   // Handles new blog form
   const handleNewBlogForm = async (event) => {
@@ -58,6 +91,7 @@ const BlogView = ({ blogs, setBlogs, errorMessage, successMessage }) => {
     
     try {
       const response = await blogService.create(newBlog)
+      blogFormRef.current.toggleVisibility()
       setBlogs([...blogs, response])
       successMessage('New blog created')
       setAuthor('')
@@ -71,7 +105,7 @@ const BlogView = ({ blogs, setBlogs, errorMessage, successMessage }) => {
 
   return (
   <>
-    <div>
+    <Togglable buttonLabel='new blog' ref={blogFormRef}>
       <NewBlogForm
         handleNewBlogForm={handleNewBlogForm}
         setAuthor={setAuthor}
@@ -81,7 +115,7 @@ const BlogView = ({ blogs, setBlogs, errorMessage, successMessage }) => {
         author={author}
         url={url}
       />
-    </div>
+    </Togglable>
     <div>
       <Blogs
         blogs={blogs}
